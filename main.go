@@ -77,7 +77,7 @@ func main() {
 	var messageVariable = "0"
 	var message = "page1.t4.txt=\"" + messageVariable + "\"" + "000"
 
-	var serverURL = "192.168.0.2"
+	var serverURL = "127.0.0.1"
 	var serverPORT = "8888"
 
 	var logLevel = "debug"
