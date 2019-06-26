@@ -76,7 +76,6 @@ func main() {
 	var serialPortSpeed = 9600
 	var messageVariable = "0"
 	var message = "page1.t4.txt=\"" + messageVariable + "\"" + "000"
-	var messageToSend = []byte(message)
 
 	var serverURL = "192.168.0.2"
 	var serverPORT = "8888"
@@ -84,10 +83,10 @@ func main() {
 	var logLevel = "debug"
 
 	type Message struct {
-		totalPower     int
-		lightningPower int
-		blindPower     int
-		hvacPower      int
+		TotalPower     int `json:"totalPower"`
+		LightningPower int `json:"lightningPower"`
+		BlindPower     int `json:"blindPower"`
+		HvacPower      int `json:"hvacPower"`
 	}
 
 	os.Setenv("RLOG_LOG_LEVEL", logLevel)
@@ -124,10 +123,12 @@ func main() {
 		var m Message
 		err = json.Unmarshal(body, &m)
 
-		fmt.Println(m.totalPower)
+		fmt.Println(m.TotalPower)
 
-		messageVariable = string(m.totalPower)
+		messageVariable = string(m.TotalPower)
 		message = "page1.t4.txt=\"" + messageVariable + "\"" + "000"
+
+		var messageToSend = []byte(message)
 
 		// add terminaison
 		messageToSend[len(messageToSend)-1] = 255
