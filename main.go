@@ -125,7 +125,7 @@ func main() {
 
 		fmt.Println(m.TotalPower)
 
-		messageVariable = string(m.TotalPower)
+		messageVariable = strconv.Itoa(m.TotalPower)
 		message = "page1.t4.txt=\"" + messageVariable + "\"" + "000"
 
 		var messageToSend = []byte(message)
