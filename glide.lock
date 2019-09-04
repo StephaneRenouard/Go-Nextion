@@ -1,0 +1,12 @@
+hash: e1de59e390ce0ceba49620c0a04b7d9317fa0dcb655ab410d6f59cd85ded958a
+updated: 2019-09-04T10:27:28.932667668+02:00
+imports:
+- name: github.com/romana/rlog
+  version: f018bc92e7d71f27c04e04cbf008860416c21d01
+- name: github.com/tarm/serial
+  version: 98f6abe2eb07edd42f6dfa2a934aea469acc29b7
+- name: golang.org/x/sys
+  version: 43c01164e93111c754a278ab423ba01063c44917
+  subpackages:
+  - unix
+testImports: []

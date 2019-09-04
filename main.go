@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
@@ -10,65 +9,12 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 
+	"github.com/energieip/common-components-go/pkg/dswitch"
 	"github.com/romana/rlog"
 	"github.com/tarm/serial"
 )
-
-type arrayString []string
-
-func (i *arrayString) String() string {
-	return strings.Join(*i, ",")
-}
-
-func (i *arrayString) Set(value string) error {
-	if value == "" {
-		return nil
-	}
-
-	var list []string
-	for _, in := range strings.Split(value, ",") {
-		list = append(list, in)
-	}
-
-	*i = arrayString(list)
-	return nil
-}
-
-func (i *arrayString) Get() interface{} { return []string(*i) }
-
-type arrayInt []int
-
-func (i *arrayInt) Set(val string) error {
-	if val == "" {
-		return nil
-	}
-
-	var list []int
-	for _, in := range strings.Split(val, ",") {
-		i, err := strconv.Atoi(in)
-		if err != nil {
-			return err
-		}
-
-		list = append(list, i)
-	}
-
-	*i = arrayInt(list)
-	return nil
-}
-
-func (i *arrayInt) Get() interface{} { return []int(*i) }
-
-func (i *arrayInt) String() string {
-	var list []string
-	for _, in := range *i {
-		list = append(list, strconv.Itoa(in))
-	}
-	return strings.Join(list, ",")
-}
 
 func main() {
 
@@ -82,28 +28,15 @@ func main() {
 
 	var logLevel = "debug"
 
-	type Message struct {
-		TotalPower     int `json:"totalPower"`
-		LightningPower int `json:"lightningPower"`
-		BlindPower     int `json:"blindPower"`
-		HvacPower      int `json:"hvacPower"`
-	}
-
 	os.Setenv("RLOG_LOG_LEVEL", logLevel)
 	os.Setenv("RLOG_LOG_NOTIME", "yes")
 	rlog.UpdateEnv()
 
 	for {
 
-		requestBody, err := json.Marshal("totalPower")
-		if err != nil {
-			rlog.Error(err.Error())
-			os.Exit(1)
-		}
-
 		url := "https://" + serverURL + ":" + serverPORT + "/v1.0/status/consumptions"
 
-		req, _ := http.NewRequest("GET", url, bytes.NewBuffer(requestBody))
+		req, _ := http.NewRequest("GET", url, nil)
 		transCfg := &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // ignore expired SSL certificates
 		}
@@ -118,12 +51,12 @@ func main() {
 
 		body, err := ioutil.ReadAll(resp.Body)
 
-		fmt.Println(string(body))
+		rlog.Info(string(body))
 
-		var m Message
+		var m dswitch.SwitchConsumptions
 		err = json.Unmarshal(body, &m)
 
-		fmt.Println(m.TotalPower)
+		rlog.Info(m.TotalPower)
 
 		messageVariable = strconv.Itoa(m.TotalPower)
 		message = "page1.t4.txt=\"" + messageVariable + "\"" + "000"
@@ -146,8 +79,8 @@ func main() {
 			log.Fatal(err)
 		}
 
-		fmt.Println("sending message")
-		fmt.Printf("%s\n", messageToSend)
+		rlog.Info("sending message")
+		rlog.Info(messageToSend)
 
 		n, err := s.Write(messageToSend)
 
@@ -157,14 +90,14 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("receiving:")
-		log.Printf("%q", buf[n])
+		rlog.Info("receiving:")
+		rlog.Infof("%q", buf[n])
 
 		//time.Sleep(time.Millisecond * 10)
 
 		// CLOSING
 		s.Close()
-		fmt.Println("Closing serial port " + serialPortNum)
+		rlog.Info("Closing serial port " + serialPortNum)
 
 		// Wait forever
 		//for {

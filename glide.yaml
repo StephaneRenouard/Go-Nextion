@@ -1,0 +1,4 @@
+package: github.com/StephaneRenouard/Go-Nextion
+import:
+- package: github.com/romana/rlog
+- package: github.com/tarm/serial
