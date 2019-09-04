@@ -1,0 +1,15 @@
+[Unit]
+Description=Nextion Screen Management service
+After=network-online.target
+Wants=network-online.target
+PartOf=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/go-nextion
+KillMode=process
+PrivateTmp=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

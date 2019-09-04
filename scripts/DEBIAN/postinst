@@ -1,0 +1,5 @@
+#!/bin/bash
+
+systemctl daemon-reload
+systemctl enable screen-management.service
+systemctl restart screen-management.service

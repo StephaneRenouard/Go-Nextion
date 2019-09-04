@@ -1,0 +1,15 @@
+Source: COMPONENT
+Maintainer: Amandine Drebes <amandine@energie-ip.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.6
+Build-Depends:
+ golang-go (>= 1.9)
+Homepage: https://github.com/StephaneRenouard/Go-Nextion
+Vcs-Git: https://github.com/StephaneRenouard/Go-Nextion.git
+PackageName: COMPONENT
+Architecture: amd64
+Depends: binutils, gzip, bzip2, xz-utils
+Description: Nextion Screen management
+Package: COMPONENT
+Version: VERSION
