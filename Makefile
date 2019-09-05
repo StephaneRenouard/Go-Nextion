@@ -24,9 +24,8 @@ deb-armhf: bin/$(COMPONENT)-armhf
 	make deb VERSION=$(VERSION) BUILD_PATH=$(BUILD_PATH) ARCH=$(ARCH) BUILD_NAME=$(BUILD_NAME)
 
 deb:
-	mkdir -p $(BUILD_PATH)/usr/local/bin $(BUILD_PATH)/etc/$(COMPONENT) $(BUILD_PATH)/etc/systemd/system
+	mkdir -p $(BUILD_PATH)/usr/local/bin $(BUILD_PATH)/etc/systemd/system
 	cp -r ./scripts/DEBIAN $(BUILD_PATH)/
-	cp ./scripts/config.json $(BUILD_PATH)/etc/$(COMPONENT)/
 	cp ./scripts/*.service $(BUILD_PATH)/etc/systemd/system/
 	sed -i "s/amd64/$(ARCH)/g" $(BUILD_PATH)/DEBIAN/control
 	sed -i "s/VERSION/$(VERSION)/g" $(BUILD_PATH)/DEBIAN/control
