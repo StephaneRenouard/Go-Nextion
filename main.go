@@ -18,7 +18,7 @@ func main() {
 	for {
 
 		m, err := tools.GetSwitchConsumption()
-		if err != nil {
+		if err == nil {
 			rlog.Info(m.TotalPower)
 
 			tools.WriteTotalPower(m.TotalPower)
