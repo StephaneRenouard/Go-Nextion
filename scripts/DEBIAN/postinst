@@ -1,5 +1,8 @@
 #!/bin/bash
 
 systemctl daemon-reload
+systemctl enable screen-update.service
 systemctl enable screen-management.service
-systemctl restart screen-management.service
+systemctl stop screen-management.service
+systemctl restart screen-update.service
+systemctl start screen-management.service

@@ -1,6 +1,6 @@
 [Unit]
 Description=Nextion Screen Management service
-After=network-online.target
+After=network-online.target screen-update.service
 Wants=network-online.target
 PartOf=network-online.target
 

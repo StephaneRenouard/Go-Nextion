@@ -36,6 +36,9 @@ deb:
 	sed -i "s/COMPONENT/$(COMPONENT)/g" $(BUILD_PATH)/DEBIAN/control
 	cp ./scripts/Makefile $(BUILD_PATH)/../
 	cp bin/screen-updater-$(ARCH) $(BUILD_PATH)/usr/local/bin/screen-updater
+	mkdir -p $(BUILD_PATH)/data/screen
+	cp cmd/update-nextion.sh $(BUILD_PATH)/usr/local/bin/update-nextion.sh
+	chmod +x  $(BUILD_PATH)/usr/local/bin/update-nextion.sh
 	cp bin/$(COMPONENT)-$(ARCH) $(BUILD_PATH)/usr/local/bin/$(COMPONENT)
 	make -C build DEB_PACKAGE=$(BUILD_NAME) deb
 

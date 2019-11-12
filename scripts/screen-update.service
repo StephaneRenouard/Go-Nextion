@@ -1,0 +1,14 @@
+[Unit]
+Description=Nextion Screen Updater service
+Before=screen-management.service
+After=network-online.target
+Wants=network-online.target
+PartOf=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update-nextion.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
